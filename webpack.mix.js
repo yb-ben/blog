@@ -14,11 +14,7 @@ const mix = require('laravel-mix');
 /*mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');*/
 
-mix.js('resources/index/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .extract(['vue','axios']);
 
-mix.js('resources/backend/main.js', 'public/js');
 
 Mix.listen('configReady', (webpackConfig) => {
     // Exclude 'svg' folder from font loader
@@ -46,4 +42,14 @@ mix.webpackConfig({
     }
 }).babelConfig({
     plugins: ['dynamic-import-node']
-})
+});
+
+mix.js('resources/index/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .extract(['vue','axios']);
+
+mix.js('resources/backend/main.js', 'public/js');
+
+if (mix.inProduction()) {
+    mix.version();
+}
