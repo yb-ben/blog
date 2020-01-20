@@ -8,6 +8,8 @@
 
 namespace App\Http\Middleware\web;
 
+use App\Common\Response\JsonResponse;
+use App\Exceptions\admin\NoLoginException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
@@ -19,24 +21,14 @@ use Illuminate\Support\Facades\Session;
 class Authenticate
 {
 
-    protected $rediretTo = '/';
-    protected $key = '';
 
-    public function __construct()
-    {
-        $this->key = Config::get('authenticate.session.name');
-    }
 
     public function handle($request, \Closure $next)
     {
-        if (!Session::has($this->key)) {
-            return redirect($this->rediretTo);
+        $adminId = \session(Config::get('authenticate.session.admin.name'));
+        if (!$adminId) {
+            throw new NoLoginException();
         }
-        $data = Session::set($this->key);
-        if(empty($data)){
-            return redirect($this->rediretTo);
-        }
-
         return $next($request);
     }
 

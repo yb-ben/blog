@@ -33,4 +33,6 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+
+    'jsversion' => '1.1'
 ];

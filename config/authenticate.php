@@ -5,7 +5,10 @@ return [
     'web' => 'session',
     'api' => 'jwt',
 
+
     'session' => [
-        'name' => 'user_id'
+        'admin' =>[
+            'name' => 'admin_id'
+        ]
     ]
 ];
