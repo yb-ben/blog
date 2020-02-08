@@ -7,6 +7,7 @@ namespace App\Http\Controllers\admin;
 use App\Common\Response\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Model\Group;
+use Huyibin\Struct\Tree;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -15,7 +16,7 @@ class GroupController extends Controller
     //分组列表
     public function list(){
         $group = new Group;
-        return JsonResponse::success($group->tree());
+        return JsonResponse::success(Tree::tree($group->all()->toArray(),['name' => 'text']) );
     }
 
 

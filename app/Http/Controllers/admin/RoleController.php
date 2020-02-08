@@ -7,6 +7,7 @@ namespace App\Http\Controllers\admin;
 use App\Common\Response\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Model\Role;
+use Huyibin\Struct\Tree;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -14,8 +15,8 @@ class RoleController extends Controller
 
     //列表
     public function list(){
-        $group = new Role;
-        return JsonResponse::success($group->tree());
+        $data  =Tree::tree( Role::select('id','name as text','parent_id','path','desc')->get()->toArray() );
+        return JsonResponse::success(array_column($data,null));
     }
 
 

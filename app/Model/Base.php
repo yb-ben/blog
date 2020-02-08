@@ -5,9 +5,11 @@ namespace App\Model;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Huyibin\Struct\Tree;
 
 class Base extends Model
 {
+
 
     protected $prefix = 'blog_';
 
@@ -33,26 +35,5 @@ class Base extends Model
         return self::create($data);
     }
 
-    public function tree(){
-
-        $groups = $this->all()->toArray();
-        $groups = array_column($groups, null, 'id');
-
-
-        foreach ($groups as $k => &$value){
-
-            if($value['parent_id']){
-                $groups[$value['parent_id']]['nodes'][] = &$value;
-            }
-        }
-
-            foreach ($groups as $k => $value){
-                if($value['parent_id']){
-                    unset($groups[$k]);
-                }
-            }
-
-        return $groups;
-    }
 
 }

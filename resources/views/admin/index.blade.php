@@ -41,7 +41,7 @@
 
         <div class="aside-item" data-url="/admin/layout/index/index.html">首页</div>
         <div class="aside-item" data-url="/admin/layout/admin/index.html">用户列表</div>
-        <div class="aside-item" data-url="/admin/layout/test.html">角色列表</div>
+        <div class="aside-item" data-url="/admin/layout/role/index.html">角色列表</div>
     </aside>
     <div id="content"></div>
 </div>
