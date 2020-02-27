@@ -15,7 +15,6 @@
     </table>
 </div>
 <script type="module">
-    import * as common from "/js/common.js?v={{ config('view.jsversion') }}";
     let mod = {
         data : null,
 

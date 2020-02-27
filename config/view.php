@@ -34,5 +34,5 @@ return [
     ),
 
 
-    'jsversion' => '1.1'
+    'jsversion' => '2.3'
 ];

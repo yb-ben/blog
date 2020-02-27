@@ -34,6 +34,10 @@ Route::prefix('admin')->group(function () {
             Route::view('index.html', 'admin.layout.role.index');
         });
 
+        Route::prefix('video')->group(function () {
+            Route::view('index.html', 'admin.layout.video.index');
+        });
+
 
 
         Route::view('test.html', 'admin.layout.test');
@@ -51,38 +55,46 @@ Route::namespace('admin')->prefix('admin')->group( function () {
         Route::post('loginPwd', 'LoginController@loginPwd');
     });
 
-
+    //管理员
     Route::prefix('admin')->group(function(){
 
 
             Route::get('list','AdminController@list');
     });
 
-    Route::prefix('role')->group(function(){
-
-
-        Route::get('list','RoleController@list');
-    });
-
-        Route::prefix('index')->group(function(){
+    //首页
+    Route::prefix('index')->group(function(){
             Route::get('index', 'IndexController@index');
         });
 
-        Route::prefix('auth')->group(function(){
+    //权限
+    Route::prefix('auth')->group(function(){
             Route::get('list', 'AuthController@list');
             Route::post('add', 'AuthController@add');
         });
 
-        Route::prefix('group')->group(function(){
+    //分组
+    Route::prefix('group')->group(function(){
             Route::get('list','GroupController@list');
             Route::post('add/{pid}','GroupController@add');
         });
 
-
+    //角色
     Route::prefix('role')->group(function(){
         Route::get('list','RoleController@list');
         Route::post('add/{pid}','RoleController@add');
     });
+
+    //测试
+    Route::prefix('test')->group(function () {
+        Route::post('upload','TestController@upload');
+        Route::get('test','TestController@test');
+        Route::post('check', 'TestController@check');
+        Route::post('mergeChunk', 'TestController@mergeChunk');
+
+        Route::post('_chunkUpload', 'TestController@_chunkUpload');
+    });
+
 });
 
 

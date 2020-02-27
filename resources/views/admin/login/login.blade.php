@@ -20,20 +20,18 @@
 @section('footer')
 
 <script type="module">
-    import * as common from "/js/common.js";
+    import * as common from "/js/common.js?v={{ config('view.jsversion') }}";
 
     window.login =()=> {
 
         let data = common.getFormData('form1');
+        common.httpUtil.apiRequest('/admin/login/loginPwd', data,'post')
+            .then((res)=>{
 
-        common.httpPost('/admin/login/loginPwd', data).then(res => {
-            console.log(res);
-            if(res.code !== 0){
-                alert(res.msg);
-            }else{
                 common.redirect('/admin/index.html');
-            }
-        });
+            }).catch(res=>{
+                console.log(res.msg);
+            });
     }
 
 </script>

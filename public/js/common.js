@@ -1,59 +1,51 @@
 
-const httpPost = (url,data)=>{
-   return fetch(url,{
-       body: JSON.stringify(data,),
-       method:'POST',
-       headers:{
-           'Content-Type':'application/json',
-            'Accept':'application/json'
-       }
-   }).then(response => response.json())
+
+
+let MyAxios = function(){
+
+};
+MyAxios.prototype =  axios.create();
+MyAxios.prototype.defaults.headers.post['Content-Type'] = 'application/json';
+MyAxios.prototype.defaults.headers.post['Accept'] = 'application/json';
+
+MyAxios.prototype.httpGet = function(url,params = {}){
+    return this.get(url,params);
+};
+
+MyAxios.prototype.httpPost = function(url,params = {}){
+    return this.post(url,params);
 };
 
 
-const httpGet = (url,data = null)=>{
 
-    if(data){
-        url += '?'+ queryString(data);
-    }
-    return fetch(url ,{
-        method:'GET',
-    });
-};
 
-const getTpl = (elem,url,data = null) =>{
+MyAxios.prototype.getTpl = function(elem,url,params = {}){
 
-    httpGet(url,data).then((resp)=>{
-        return resp.text();
-    }).then(resp =>{
+    this.get(url, params).then(function (resp) {
         elem.html(resp);
-        history.pushState({},'','#'+url)
-    }).catch(resp=>{
+        history.pushState({},'','#'+url);
+    }).catch(function (error) {
         alert('404 NotFound !');
     });
 };
+MyAxios.prototype.apiRequest = function(url,data = {} , method= 'get'){
 
-const apiRequest = (url,data = null , method= 'get') =>{
-    let p = null;
-    switch (method) {
-        case 'get':
-            p = httpGet(url,data).then(resp => resp.json());
-        break;
-    }
-    return p.then( resp => {
-        if(resp.code !== 0){
-            return Promise.reject(resp);
+    return this.request({
+        method:method,
+        url:url,
+        data:data,
+    }).then(function(resp){
+        console.log(resp);
+        if(resp.data &&  resp.data.code === 0){
+            return resp.data;
         }
-        return Promise.resolve(resp);
-    }).catch((resp)=>{
-        alert(resp.msg);
-    })
+        return Promise.reject(resp);
+    });
 };
 
+
 const getFormData = (formId) => {
-
     let formData = new FormData(document.getElementById(formId));
-
     let jsonData = {};
     formData.forEach((value,key)=>{
         jsonData[key] = value;
@@ -73,5 +65,5 @@ const queryString = (data) => {
     return s.join('&');
 };
 
-
-export  {httpGet,httpPost,getFormData,redirect,getTpl,apiRequest};
+const httpUtil = new MyAxios();
+export {httpUtil,redirect,getFormData,queryString};
